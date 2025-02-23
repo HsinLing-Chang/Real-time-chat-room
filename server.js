@@ -11,8 +11,8 @@ const port = process.env.PORT || 3500;
 const expressServer = app.listen(port);
 
 const io = new Server(expressServer, {
-  pingInterval: 600000,
-  pingTimeout: 60000,
+  pingInterval: 180000,
+  pingTimeout: 540000,
 });
 //Admin
 const ADMIN = "Admin";
@@ -50,6 +50,10 @@ class ChatManager {
     return this.users.get(socketId);
   }
 
+  static deleteUser(socketId) {
+    this.users.delete(socketId);
+  }
+
   static getUser(socketId) {
     return this.users.get(socketId);
   }
@@ -76,7 +80,7 @@ class ChatManager {
       ) {
         this.rooms.delete(roomName);
       }
-      this.users.delete(socketId);
+      // this.users.delete(socketId);
       this.activeUser.delete(name);
     }
   }
@@ -160,6 +164,7 @@ io.on("connection", (socket) => {
 
     console.log(user?.name + "已斷開連線: " + reason);
     ChatManager.removeUser(socket.id);
+    ChatManager.deleteUser(socket.id);
     console.log(ChatManager.users);
     console.log(ChatManager.rooms);
 

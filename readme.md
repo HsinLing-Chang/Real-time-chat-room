@@ -27,7 +27,7 @@ In the future, there are plans to add additional features such as private chat r
 
 - **Room sidebar navigation:** The sidebar allows user to see a list of available rooms to join. If user has not entered a name, the system will assign a random ID. If a name is provided, it will be used instead.
 
-- **Current room display:** At the top of the chat interface, the user can see the name of the room they are currently in and a list of user who are also in the room.
+- **Current room display:** At the top of the chat interface, the user can see the name of the room they are currently in and a list of users who are also in the room.
 
 - **Chat in room:** Once user join a room, the user can send and receive messages in real-time with others in the same room.
 
