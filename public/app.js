@@ -132,3 +132,7 @@ socket.on("userList", (userList) => {
     "Current User :  " +
     userList.map((user) => `<a href='#'><span>${user}</span></a> `);
 });
+
+socket.on("disconnect", (reason) => {
+  alert(reason);
+});

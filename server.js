@@ -95,7 +95,6 @@ io.on("connection", (socket) => {
   io.emit("roomList", Array.from(ChatManager.rooms.keys()));
 
   socket.on("enterRoom", ({ username, room }) => {
-    console.log("用戶 " + ChatManager.username + " 進入房間 " + room);
     const prevUser = ChatManager.getUser(socket.id);
     const prevRoom = prevUser?.room;
     if (prevRoom) {
@@ -109,9 +108,9 @@ io.on("connection", (socket) => {
     }
     const user = ChatManager.addUser(socket.id, username, room);
     socket.emit("username", user.name);
-    console.log(ChatManager.users);
     socket.join(user.room);
-
+    console.log(ChatManager.users);
+    console.log("用戶 " + user.name + " 進入房間 " + user.room);
     io.emit("roomList", Array.from(ChatManager.rooms.keys()));
     io.to(user.room).emit("userList", ChatManager.getUserInRoom(user.room));
 
@@ -160,10 +159,11 @@ io.on("connection", (socket) => {
       );
     console.log(user?.name + "已斷開連線");
     ChatManager.removeUser(socket.id);
-    console.log("當前用戶: " + ChatManager.users);
-    console.log("當前房間: " + ChatManager.rooms);
+    console.log(ChatManager.users);
+    console.log(ChatManager.rooms);
 
     io.emit("roomList", Array.from(ChatManager.rooms.keys()));
     io.to(room).emit("userList", ChatManager.getUserInRoom(room));
+    socket.emit("disconnect", "You are disconnected. Please try again.");
   });
 });
