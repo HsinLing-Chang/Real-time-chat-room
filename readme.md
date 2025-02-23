@@ -7,7 +7,7 @@ Real-time chat room is a small, lightweight chat application built with JavaScri
 The real-time chat room uses Socket.IO to establish a real-time communication channel between the client and server. By chosing Socket.IO, the application is able to handle multiple users in real-time.
 In the future, there are plans to add additional features such as private chat rooms, user authentication, and more customization options to enhance the user experience.
 
-## Feature
+## Features
 
 - **Muti-user real-time chat:** Users can send and receive messages instantly with other users in the same room.
 - **Dynamic room management:** Users can create or join rooms. Rooms are automatically removed when all users leave, except for the default room.
