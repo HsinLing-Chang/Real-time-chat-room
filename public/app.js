@@ -1,4 +1,4 @@
-const socket = io("ws://localhost:3500");
+const socket = io("wss://real-time-chat-room-sblr.onrender.com");
 
 const msgInput = document.querySelector("#message");
 const msgForm = document.querySelector(".msg-form");
