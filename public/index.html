@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Room</title>
+    <link rel="stylesheet" href="style.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.min.js"
+      integrity="sha512-8ExARjWWkIllMlNzVg7JKq9RKWPlJABQUNq6YvAjE/HobctjH/NA+bSiDMDvouBVjp4Wwnf1VP1OEv7Zgjtuxw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main>
+      <form class="room-form">
+        <input
+          type="text"
+          name="name"
+          id="name"
+          required
+          placeholder="Your name"
+          size="5"
+        />
+
+        <input
+          type="text"
+          name="room"
+          id="room"
+          required
+          placeholder="Chat room"
+          size="5"
+        />
+
+        <button type="submit">Join the Room</button>
+      </form>
+
+      <div class="interface">
+        <div class="current-room-and-users-info">
+          <div
+            class="current-room"
+            style="margin-right: 4rem; text-wrap: nowrap"
+          ></div>
+          <div class="users-info"></div>
+        </div>
+        <div class="activity-wrapper">
+          <p class="activity"></p>
+        </div>
+        <ul class="chat-display"></ul>
+      </div>
+
+      <form class="msg-form">
+        <input
+          type="text"
+          name="message"
+          id="message"
+          class="message"
+          placeholder="Message"
+        />
+        <button class="send-btn">Send</button>
+      </form>
+    </main>
+    <a class="toggle-btn" href="#">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </a>
+    <div class="room-info">
+      <div class="active-room">
+        <h3>Active Room</h3>
+      </div>
+      <ul class="room-ul"></ul>
+    </div>
+  </body>
+</html>

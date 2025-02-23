@@ -1,0 +1,200 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+main {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem 0 1rem;
+}
+main > div {
+  margin-bottom: 1rem;
+}
+.interface {
+  position: relative;
+  max-width: 800px;
+  width: 100%;
+  height: 70vh;
+  /* margin: 1rem auto; */
+  background-color: #424242;
+  border-radius: 1rem;
+}
+
+.interface .current-room-and-users-info {
+  padding: 1rem;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  opacity: 0.3;
+  background-color: rgb(171, 168, 168);
+  border-radius: 1rem 1rem 0 0;
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(200, 192, 189) rgb(107, 100, 92);
+  white-space: nowrap;
+  align-items: center;
+  overflow-x: auto;
+  color: white;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.users-info a {
+  text-decoration: none;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.interface ul {
+  width: 100%;
+  list-style: none;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  height: 100%;
+  padding: 4rem 2rem 2rem 2rem;
+}
+.interface ul li {
+  margin: 0.5rem 0;
+}
+.activity-wrapper {
+  position: absolute;
+  bottom: 0;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  font-size: 14px;
+  color: aliceblue;
+  overflow: hidden;
+}
+.activity-color {
+  background-color: black;
+  border-radius: 0 0 1rem 1rem;
+}
+form {
+  width: 100%;
+  margin: auto;
+  max-width: 800px;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 2px;
+  font-size: 1rem;
+}
+.room-form button {
+  width: 20%;
+}
+.admin {
+  color: rgb(138, 190, 229);
+}
+.user {
+  align-self: flex-end;
+}
+.text-box {
+  width: 60%;
+  background-color: #9e9d9d;
+  border-radius: 0.5rem;
+}
+.name-and-time {
+  padding: 0.25rem;
+  padding-right: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+.text {
+  padding: 0.25rem;
+  word-break: break-word;
+}
+.user-color {
+  background-color: rgb(58, 155, 123);
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+.other-color {
+  background-color: rgb(58, 108, 155);
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+input {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border-radius: 5px;
+  max-width: calc(80% - 0.25rem);
+}
+
+button {
+  width: 20%;
+  padding: 0.25rem 0.75rem;
+  border-radius: 10px;
+}
+
+.room-info {
+  text-align: center;
+  color: aliceblue;
+  display: none;
+  /* padding-top: 3.5rem; */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30%;
+  background-color: #424242;
+  height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.active {
+  display: block;
+  box-shadow: 3px 0px 3px black;
+}
+.active-room {
+  padding: 3.5rem 2rem 1rem;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: #424242;
+}
+.room-ul {
+  list-style: none;
+}
+.room-ul a {
+  text-decoration: none;
+}
+.room-li {
+  transition: all 0.2s ease-in-out;
+  padding: 1rem;
+  color: aliceblue;
+  &:hover {
+    background-color: #9e9d9d;
+  }
+}
+.toggle-btn {
+  position: absolute;
+  top: 1rem;
+  left: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.toggle-btn .bar {
+  height: 3px;
+  width: 100%;
+  background-color: black;
+  border-radius: 10px;
+}
+.toggle-btn .color-white {
+  background-color: aliceblue;
+}
+@media (max-width: 600px) {
+  .room-info {
+    width: 70%;
+  }
+}
