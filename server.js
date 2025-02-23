@@ -7,8 +7,8 @@ const __dirname = dirname(absPath); //current directory path
 const app = express();
 
 app.use(express.static(join(__dirname, "public"))); //public abs path
-
-const expressServer = app.listen(3500);
+const port = process.env.PORT || 3500;
+const expressServer = app.listen(port);
 
 const io = new Server(expressServer, {
   pingInterval: 600000,
