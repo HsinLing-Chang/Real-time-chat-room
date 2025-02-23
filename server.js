@@ -164,6 +164,6 @@ io.on("connection", (socket) => {
 
     io.emit("roomList", Array.from(ChatManager.rooms.keys()));
     io.to(room).emit("userList", ChatManager.getUserInRoom(room));
-    socket.emit("disconnect", "You are disconnected. Please try again.");
+    socket.emit("disconnect_reason", "You are disconnected. Please try again.");
   });
 });
