@@ -148,7 +148,7 @@ io.on("connection", (socket) => {
       .emit("typing", Array.from(ChatManager.activeUser));
   });
 
-  socket.on("disconnect", () => {
+  socket.on("disconnect", (reason) => {
     const user = ChatManager.getUser(socket.id);
     const room = user?.room;
     socket
@@ -157,13 +157,13 @@ io.on("connection", (socket) => {
         "message",
         buildMsg(ADMIN, `${user?.name} has left the chat room.`)
       );
-    console.log(user?.name + "已斷開連線");
+
+    console.log(user?.name + "已斷開連線: " + reason);
     ChatManager.removeUser(socket.id);
     console.log(ChatManager.users);
     console.log(ChatManager.rooms);
 
     io.emit("roomList", Array.from(ChatManager.rooms.keys()));
     io.to(room).emit("userList", ChatManager.getUserInRoom(room));
-    socket.emit("disconnect_reason", "You are disconnected. Please try again.");
   });
 });

@@ -17,6 +17,12 @@ In the future, there are plans to add additional features such as private chat r
 
 ## Usage
 
+- **Access the app:** To access the app, simply visit the URL below.
+
+  ```shell
+  https://real-time-chat-room-sblr.onrender.com
+  ```
+
 - **Create or join room:** The user inputs a name and room, then clicks the "Join Room" button to either create a new room or join an exisiting room.
 
 - **Room sidebar navigation:** The sidebar allows user to see a list of available rooms to join. If user has not entered a name, the system will assign a random ID. If a name is provided, it will be used instead.
@@ -24,3 +30,5 @@ In the future, there are plans to add additional features such as private chat r
 - **Current room display:** At the top of the chat interface, the user can see the name of the room they are currently in and a list of user who are also in the room.
 
 - **Chat in room:** Once user join a room, the user can send and receive messages in real-time with others in the same room.
+
+- **Auto-disconnect on inactivity:** Users will be automatically disconnected after 10 minutes of inactivity.

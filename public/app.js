@@ -133,6 +133,6 @@ socket.on("userList", (userList) => {
     userList.map((user) => `<a href='#'><span>${user}</span></a> `);
 });
 
-socket.on("disconnect_reason", (reason) => {
-  alert(reason);
+socket.on("disconnect", (reason) => {
+  alert("You were disconnected due to: " + reason);
 });
