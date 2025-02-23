@@ -1,4 +1,4 @@
-const socket = io("wss://real-time-chat-room-sblr.onrender.com");
+const socket = io("ws://localhost:3500");
 
 const msgInput = document.querySelector("#message");
 const msgForm = document.querySelector(".msg-form");
@@ -17,16 +17,17 @@ const bars = document.querySelectorAll(".bar");
 const currentRoom = document.querySelector(".current-room");
 const usersInfo = document.querySelector(".users-info");
 
+class UserValue {
+  static username = null;
+  static room = [];
+}
+
 toggleBtn.addEventListener("click", (e) => {
   e.preventDefault();
   roomInfo.classList.toggle("active");
   bars.forEach((bar) => bar.classList.toggle("color-white"));
 });
 
-class UserValue {
-  static username = null;
-  static room = [];
-}
 roomForm.addEventListener("submit", (e) => {
   e.preventDefault();
   UserValue.username = userName.value;
@@ -36,7 +37,7 @@ roomForm.addEventListener("submit", (e) => {
     room: UserValue.room,
   };
   socket.emit("enterRoom", userValue);
-  //顯示用戶當前房間
+
   currentRoom.textContent = "Current Room:  " + UserValue.room;
 });
 
@@ -53,10 +54,23 @@ let activityTimer;
 msgInput.addEventListener("keydown", () => {
   socket.emit("typing", UserValue.username);
   clearTimeout(activityTimer);
-  //計算user typing 時間
+  //user typing countor
   activityTimer = setTimeout(() => {
     socket.emit("stopTyping", UserValue.username);
   }, 1500);
+});
+
+roomDisplay.addEventListener("click", (event) => {
+  if (event.target.tagName === "LI") {
+    UserValue.username = userName.value || UserValue.username || null;
+    UserValue.room = event.target.innerText;
+    const userValue = {
+      username: UserValue.username,
+      room: UserValue.room,
+    };
+    socket.emit("enterRoom", userValue);
+    currentRoom.textContent = "Current Room:  " + UserValue.room;
+  }
 });
 
 socket.on("typing", (userList) => {
@@ -73,7 +87,6 @@ socket.on("typing", (userList) => {
   }
 });
 
-//接收來自server訊息
 socket.on("message", ({ name, text, time }) => {
   activity.textContent = "";
   activityWrapper.classList.remove("activity-color");
@@ -100,7 +113,6 @@ socket.on("message", ({ name, text, time }) => {
   chatDisplay.scrollTop = chatDisplay.scrollHeight;
 });
 
-//接收server指派的用戶名稱
 if (!UserValue.username) {
   socket.on("username", (username) => {
     UserValue.username = username;
@@ -108,20 +120,6 @@ if (!UserValue.username) {
   });
 }
 
-//當用戶按下連結後跳轉到點擊房間
-roomDisplay.addEventListener("click", (event) => {
-  if (event.target.tagName === "LI") {
-    UserValue.username = userName.value || UserValue.username || null;
-    UserValue.room = event.target.innerText;
-    const userValue = {
-      username: UserValue.username,
-      room: UserValue.room,
-    };
-    socket.emit("enterRoom", userValue);
-    currentRoom.textContent = "Current Room:  " + UserValue.room;
-  }
-});
-//當前房間訊息
 socket.on("roomList", (roomList) => {
   UserValue.roomList = roomList;
   roomDisplay.innerHTML = UserValue.roomList

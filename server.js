@@ -2,19 +2,17 @@ import express from "express";
 import { Server } from "socket.io";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
-const absPath = fileURLToPath(import.meta.url); // 當前檔案絕對路徑
-const __dirname = dirname(absPath); //當前資料夾路徑
+const absPath = fileURLToPath(import.meta.url); // current file abs path
+const __dirname = dirname(absPath); //current directory path
 const app = express();
 
-app.use(express.static(join(__dirname, "public"))); //public絕對路徑
+app.use(express.static(join(__dirname, "public"))); //public abs path
 
 const expressServer = app.listen(3500);
 
 const io = new Server(expressServer, {
-  cors: {
-    origin:
-      process.env.NODE_ENV == "production" ? false : ["http://localhost:3500"],
-  },
+  pingInterval: 600000,
+  pingTimeout: 60000,
 });
 //Admin
 const ADMIN = "Admin";
@@ -23,7 +21,8 @@ function buildMsg(name, text) {
   return {
     name,
     text,
-    time: Intl.DateTimeFormat("default", {
+    time: Intl.DateTimeFormat("zh-TW", {
+      timeZone: "Asia/Taipei",
       hour: "numeric",
       minute: "numeric",
       second: "numeric",
@@ -37,23 +36,24 @@ class ChatManager {
   static users = new Map();
   static rooms = new Map();
   static activeUser = new Set();
-  //加入使用者
+
   static addUser(socketId, username, roomName) {
     this.users.set(socketId, {
       name: username || socketId.substring(0, 5),
       room: roomName,
     });
-    //使用者加入房間
+
     if (!this.rooms.has(roomName)) {
       this.rooms.set(roomName, new Set());
     }
     this.rooms.get(roomName).add(socketId);
     return this.users.get(socketId);
   }
-  //獲取使用者名稱
+
   static getUser(socketId) {
     return this.users.get(socketId);
   }
+
   static getUserInRoom(roomName) {
     const allUserID = this.rooms.get(roomName);
     if (allUserID) {
@@ -63,7 +63,7 @@ class ChatManager {
       return null;
     }
   }
-  //使用者離開房間
+
   static removeUser(socketId) {
     const user = this.users.get(socketId);
     const roomName = user?.room;
@@ -87,14 +87,15 @@ class ChatManager {
     }
   }
 }
-//initialize rooms
+//initialize default rooms
 ChatManager.defaultRoomSetting();
 
 io.on("connection", (socket) => {
-  //當用戶連線時更新房間
+  //update roomList when user enter a room
   io.emit("roomList", Array.from(ChatManager.rooms.keys()));
 
   socket.on("enterRoom", ({ username, room }) => {
+    console.log("用戶 " + ChatManager.username + " 進入房間 " + room);
     const prevUser = ChatManager.getUser(socket.id);
     const prevRoom = prevUser?.room;
     if (prevRoom) {
@@ -111,13 +112,14 @@ io.on("connection", (socket) => {
     console.log(ChatManager.users);
     socket.join(user.room);
 
-    // console.log("當前房間: " + UserState.currentRooms);
     io.emit("roomList", Array.from(ChatManager.rooms.keys()));
     io.to(user.room).emit("userList", ChatManager.getUserInRoom(user.room));
+
     socket.emit(
       "message",
       buildMsg(ADMIN, `Welcome to ${user.room} chat room.`)
     );
+
     socket
       .to(room)
       .emit(
@@ -132,7 +134,7 @@ io.on("connection", (socket) => {
     io.to(room).emit("message", buildMsg(user?.name, msg));
   });
 
-  //keypress
+  //keypress event
   socket.on("typing", (username) => {
     ChatManager.activeUser.add(username);
     const room = ChatManager.getUser(socket.id)?.room;
@@ -156,13 +158,12 @@ io.on("connection", (socket) => {
         "message",
         buildMsg(ADMIN, `${user?.name} has left the chat room.`)
       );
-
+    console.log(user?.name + "已斷開連線");
     ChatManager.removeUser(socket.id);
-    console.log(ChatManager.users);
-    console.log(ChatManager.rooms);
-    //更新房間
+    console.log("當前用戶: " + ChatManager.users);
+    console.log("當前房間: " + ChatManager.rooms);
+
     io.emit("roomList", Array.from(ChatManager.rooms.keys()));
     io.to(room).emit("userList", ChatManager.getUserInRoom(room));
-    // console.log("剩餘使用者： " + JSON.stringify(UserState.users));
   });
 });
