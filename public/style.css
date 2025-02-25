@@ -50,6 +50,13 @@ main > div {
   text-decoration: none;
   font-family: "Times New Roman", Times, serif;
 }
+.user-list {
+  color: rgb(128, 45, 151);
+  font-weight: bold;
+  &:hover {
+    cursor: pointer;
+  }
+}
 
 .interface ul {
   width: 100%;
@@ -159,6 +166,9 @@ button {
 }
 .room-ul {
   list-style: none;
+  &:hover {
+    cursor: pointer;
+  }
 }
 .room-ul a {
   text-decoration: none;

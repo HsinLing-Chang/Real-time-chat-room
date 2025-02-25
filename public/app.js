@@ -1,5 +1,5 @@
-const socket = io("wss://real-time-chat-room-sblr.onrender.com");
-
+const socket = io("ws://localhost:3500");
+//wss://real-time-chat-room-sblr.onrender.com
 const msgInput = document.querySelector("#message");
 const msgForm = document.querySelector(".msg-form");
 const activity = document.querySelector(".activity");
@@ -123,14 +123,14 @@ if (!UserValue.username) {
 socket.on("roomList", (roomList) => {
   UserValue.roomList = roomList;
   roomDisplay.innerHTML = UserValue.roomList
-    .map((room) => `<a href="#"><li class="room-li">${room}</li></a>`)
+    .map((room) => `<li class="room-li">${room}</li>`)
     .join("");
 });
 
 socket.on("userList", (userList) => {
   usersInfo.innerHTML =
     "Current User :  " +
-    userList.map((user) => `<a href='#'><span>${user}</span></a> `);
+    userList.map((user) => `<span class="user-list">${user}</span>`);
 });
 
 socket.on("disconnect", (reason) => {
