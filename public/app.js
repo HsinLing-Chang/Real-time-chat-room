@@ -1,3 +1,4 @@
+//Run on localhost => io("ws://loaclhost:3500")
 const socket = io("wss://real-time-chat-room-sblr.onrender.com");
 
 const msgInput = document.querySelector("#message");
@@ -19,7 +20,7 @@ const usersInfo = document.querySelector(".users-info");
 
 class UserValue {
   static username = null;
-  static room = [];
+  static room = null;
 }
 
 toggleBtn.addEventListener("click", (e) => {
